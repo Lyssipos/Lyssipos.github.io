@@ -28,7 +28,7 @@ background-image: url('bg.jpg');
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 1;
             object-fit: cover;
             opacity: 1; /* Adjust opacity to make text readable */
         }
@@ -45,8 +45,8 @@ background-image: url('bg.jpg');
             font-size: 48px;
             box-sizing: border-box;
             overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
-            border: 1px solid #ffffff;
+            background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
+            border: 0px solid #ffffff;
         }
 
         /* Text container that will scroll */
@@ -54,6 +54,7 @@ background-image: url('bg.jpg');
             white-space: pre-wrap; /* Preserves formatting and line breaks */
             line-height: 1.3;
             font-size: 24px;
+            z-index: 2;
             overflow-y: hidden;
             height: 100%;
         }
