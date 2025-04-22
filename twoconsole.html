@@ -122,50 +122,137 @@
 
     <script>
         // Text sources
-        const leftTextSource = `Welcome to System Console Alpha
-Initializing subsystems...
-- Memory: OK
-- Processing: OK
-- Network: OK
-- Security: OK
-
-System diagnostics complete.
-All systems nominal.
-
-User access requested...
-Authentication required.
-Enter credentials: 
-****************
-Access granted.
-
-> Loading primary interface
-> Establishing secure connection
-> Connection established at 192.168.1.105
-> Data transfer initialized
-
-Ready for commands.`;
-
-        const rightTextSource = `Secondary Terminal Online
-Establishing link to mainframe...
-Link established.
-
-Running system checks:
-- CPU Load: 23%
-- Memory Usage: 1.2GB/4GB
-- Disk Space: 450GB/1TB
-- Network Latency: 14ms
-
-Security Protocols:
-- Firewall: Active
-- Encryption: AES-256
-- Intrusion Detection: Enabled
-
-> Monitoring network traffic
-> Analyzing system logs
-> Scanning for anomalies
-> No threats detected
-
-Standing by for further instructions.`;
+        const leftTextSource = `import random
+from functools import reduce
+# --- Key Definitions (Heraclitean Fragments as Functions) ---
+def panta_rhei(thing):
+    """Everything flows; no thing remains itself."""
+    return thing + random.uniform(-1, 1)  # Flux: perturb the input
+def logos(things):
+    """The hidden law governing flux. (Stoic/Modern: Cosmic Reason)"""
+    return sum(things) / len(things)  # Balance as implicit order
+def fire_arche(thing):
+    """Fire transforms all things. (Nietzschean: Eternal Recurrence)"""
+    return thing ** 1.5 if random.random() > 0.5 else thing ** 0.5  # Cyclic creation/destruction
+def unity_of_opposites(a, b):
+    """Opposites are one. (Hegelian: Dialectics)"""
+    return (a + b) / abs(a - b) if a != b else 0  # Tension as harmony
+def war_is_father(things):
+    """Strife generates change. (Darwin/Nietzsche: Will to Power)"""
+    return max(things) - min(things)  # Conflict drives evolution
+def hidden_nature(thing):
+    """Nature loves to hide. (Process Philosophy: Latent Potential)"""
+    return thing if random.random() > 0.8 else None  # Truth is elusive
+def soul_fire(soul):
+    """Dry soul = wisdom; wet soul = ignorance. (Stoic: Logos alignment)"""
+    return "WISE" if soul > 0.7 else "FOOLISH"  # Rationality threshold
+# --- Heraclitus' World Simulation ---
+def heraclitus_world(seed):
+    """Run the world through Heraclitean flux."""
+    state = seed
+    states = [state]
+    for _ in range(10):  # 10 cycles of change
+        state = panta_rhei(state)
+        state = fire_arche(state)
+        states.append(state) 
+    # Apply deeper principles
+    balance = logos(states)
+    strife = war_is_father(states)
+    opposites = unity_of_opposites(states[0], states[-1])
+    truth = hidden_nature(balance)
+    soul = soul_fire(random.random())
+    
+    return {
+        "FLUX": states,
+        "LOGOS": balance,
+        "FIRE_TRANSFORMED": states[-1],
+        "OPPOSITES_UNITED": opposites,
+        "STRIFE": strife,
+        "HIDDEN_TRUTH": truth,
+        "SOUL_STATE": soul,
+        "CONCLUSION": "ALL IS FLUX; CHANGE IS THE ONLY CONSTANT."
+    }
+# --- Run the Simulation ---
+if __name__ == "__main__":
+    initial_seed = 10  # Represents an initial "thing" (e.g., a river, a soul)
+    world_result = heraclitus_world(initial_seed)
+    
+    # Cryptic output (Heraclitean style)
+    print("==== HERACLITUS' ORACLE ====")
+    for key, val in world_result.items():
+        if key == "FLUX":
+            print(f"* {key}: The river flows as {val}")
+        elif key == "HIDDEN_TRUTH" and val is None:
+            print(f"* {key}: Nature hides her secrets (Process Philosophy).")
+        else:
+            print(f"* {key}: {val}")
+    print("\n[Modern Echoes:]")
+    print("- Nietzsche: 'You must become a burning river, never the same.'")
+    print("- Hegel: 'Opposites unite in the dialectic of fire.'")
+    print("- Whitehead: 'Process is the ultimate reality.'")
+import random
+from functools import reduce
+def PANTA_RHEI(T):return T+random.uniform(-1,1)
+def LOGOS(T):return sum(T)/len(T)
+def FIRE_ARCHE(T):return T**1.5 if random.random()>0.5 else T**0.5
+def UNITY_OF_OPPOSITES(A,B):return(A+B)/abs(A-B)if A!=B else 0
+def WAR_IS_FATHER(T):return max(T)-min(T)
+def HIDDEN_NATURE(T):return T if random.random()>0.8 else None
+def SOUL_FIRE(S):return"WISE"if S>0.7 else"FOOLISH"
+def HERACLITUS_WORLD(S):
+ S=[S]
+ for _ in range(10):S.append(FIRE_ARCHE(PANTA_RHEI(S[-1])))
+ return{
+ "FLUX":S,
+ "LOGOS":LOGOS(S),
+ "FIRE_TRANSFORMED":S[-1],
+ "OPPOSITES_UNITED":UNITY_OF_OPPOSITES(S[0],S[-1]),
+ "STRIFE":WAR_IS_FATHER(S),
+ "HIDDEN_TRUTH":HIDDEN_NATURE(LOGOS(S)),
+ "SOUL_STATE":SOUL_FIRE(random.random()),
+ "CONCLUSION":"ALL IS FLUX; CHANGE IS THE ONLY CONSTANT."}
+if __name__=="__main__":
+ W=HERACLITUS_WORLD(10)
+ print("====HERACLITUS' ORACLE====")
+ for K,V in W.items():
+  if K=="FLUX":print(f"*{K}:THE RIVER FLOWS AS{V}")
+  elif K=="HIDDEN_TRUTH"and V is None:print(f"*{K}:NATURE HIDES HER SECRETS")
+  else:print(f"*{K}:{V}")
+`;
+ const rightTextSource = `
+        ΚΛΑΣΣΙΣ ΗΕΡΙΚΛΙΤΑΣ=ΝΕΟ ΚΛΑΣΣΙΣ(){\n
+import random\n
+def ΠΑΝΤΑ_ΡΕΙ(Τ):return Τ+random.uniform(-1,1)\n
+def ΛΟΓΟΣ(Τ):return sum(Τ)/len(Τ)\n
+def ΠΥΡ_ΑΡΧΗ(Τ):return Τ**1.5 if random.random()>0.5 else Τ**0.5\n
+def ΕΝΑΝΤΙΑ_ΣΥΝΕΡΧΕΤΑΙ(Α,Β):return(Α+Β)/abs(Α-Β)if Α!=Β else 0\n
+def ΠΟΛΕΜΟΣ_ΠΑΤΗΡ(Τ):return max(Τ)-min(Τ)\n
+def ΚΡΥΠΤΕΣΘΑΙ_ΦΙΛΕΙ(Τ):return Τ if random.random()>0.8 else None\n
+def ΨΥΧΗ_ΠΥΡ(Ψ):return"ΣΟΦΟΣ"if Ψ>0.7 else"ΑΝΟΗΤΟΣ"\n
+def ΗΡΑΚΛΕΙΤΟΣ_ΚΟΣΜΟΣ(Σ):\n
+ Σ=[Σ]\n
+ for _ in range(10):Σ.append(ΠΥΡ_ΑΡΧΗ(ΠΑΝΤΑ_ΡΕΙ(Σ[-1])))\n
+ return{\n
+ "ΡΕΥΜΑ":Σ,\n
+ "ΛΟΓΟΣ":ΛΟΓΟΣ(Σ),\n
+ "ΠΥΡ_ΜΕΤΑΜΟΡΦΩΣΕ":Σ[-1],\n
+ "ΕΝΑΝΤΙΑ_ΗΝΩΜΕΝΑ":ΕΝΑΝΤΙΑ_ΣΥΝΕΡΧΕΤΑΙ(Σ[0],Σ[-1]),\n
+ "ΠΟΛΕΜΟΣ":ΠΟΛΕΜΟΣ_ΠΑΤΗΡ(Σ),\n
+ "ΚΡΥΦΗ_ΑΛΗΘΕΙΑ":ΚΡΥΠΤΕΣΘΑΙ_ΦΙΛΕΙ(ΛΟΓΟΣ(Σ)),\n
+ "ΚΑΤΑΣΤΑΣΗ_ΨΥΧΗΣ":ΨΥΧΗ_ΠΥΡ(random.random()),\n
+ "ΤΕΛΟΣ":"ΠΑΝΤΑ ΡΕΙ· ΜΟΝΗ Η ΜΕΤΑΒΟΛΗ ΜΕΝΕΙ."}\n
+if __name__=="__main__":\n
+ Κ=ΗΡΑΚΛΕΙΤΟΣ_ΚΟΣΜΟΣ(10)\n
+ print("====ΗΡΑΚΛΕΙΤΟΥ ΧΡΗΣΜΟΙ====")\n
+ for Κ,Β in Κ.items():\n
+  if Κ=="ΡΕΥΜΑ":print(f"*{Κ}:Ο ΠΟΤΑΜΟΣ ΡΕΕΙ ΩΣ {Β}")\n
+  elif Κ=="ΚΡΥΦΗ_ΑΛΗΘΕΙΑ"and Β is None:print(f"*{Κ}:Η ΦΥΣΙΣ ΚΡΥΠΤΕΤΑΙ")\n
+  else:print(f"*{Κ}:{Β}")\n
+ print("\n[ΝΕΟΤΕΡΑ ΗΧΗ:]")\n
+ print("-ΝΙΤΣΣΕ:'ΓΙΝΕ ΠΟΤΑΜΟΣ ΠΥΡΟΣ, ΠΟΤΕ ΟΜΟΙΟΣ.'"\n)
+ print("-ΧΕΓΚΕΛ:'ΤΑ ΕΝΑΝΤΙΑ ΕΝΩΝΟΝΤΑΙ ΣΤΗ ΔΙΑΛΕΚΤΙΚΗ ΤΟΥ ΠΥΡΟΣ.'")\n
+ print("-ΟΥΑΙΤΧΕΝΤ:'Η ΔΙΑΔΙΚΑΣΙΑ ΕΙΝΑΙ Η ΥΠΕΡΟΧΗ ΠΡΑΓΜΑΤΙΚΟΤΗΤΑ.'")}\n
+`;
 
         // Typing function
         function typeText(element, text, speed) {
