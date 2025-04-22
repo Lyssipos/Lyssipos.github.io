@@ -275,53 +275,7 @@ if __name__=="__main__":\n
  print("-ΟΥΑΙΤΧΕΝΤ:'Η ΔΙΑΔΙΚΑΣΙΑ ΕΙΝΑΙ Η ΥΠΕΡΟΧΗ ΠΡΑΓΜΑΤΙΚΟΤΗΤΑ.'")}\n
 > _`;
 
-// Function to type text with a typewriter effect
-        async function typeText2(text) {
-            let lines = text.split('\n');
-             
-            for (let i = 0; i < lines.length; i++) {
-                let line = lines[i];
-                let currentLength = consoleContent2.textContent.length;
-                
-                // Add line character by character
-                for (let j = 0; j < line.length; j++) {
-                    consoleContent2.textContent += line[j];
-                    
-                    // Check if we need to scroll
-                    if (consoleContent2.scrollHeight > consoleElement2.clientHeight * config.scrollThreshold) {
-                        consoleContent2.scrollTop = consoleContent2.scrollHeight;
-                    }
-                    
-                    // Delay between characters
-                    await new Promise(resolve => setTimeout(resolve, config.typingSpeed));
-                }
-                
-                // Add line break (except for the last line)
-                if (i < lines.length - 1) {
-                    consoleContent2.textContent += '\n';
-                }
-                
-                // Delay between lines
-                await new Promise(resolve => setTimeout(resolve, config.newLineDelay));
-            }
-            
-            // Add blinking cursor at the end
-            consoleContent2.innerHTML += '<span class="cursor"></span>';
-        }
 
-        // Initialize the console
-        function initConsole2() {
-            // Check if there's already text in the console
-            if (consoleContent2.textContent.trim() === '') {
-                // If empty, use either the sourceText or default initialText
-                const textToType2 = sourceText2 || config.initialText;
-                typeText2(textToType2);
-            }
-        }
-
-        // Start when the page loads
-        window.onload = initConsole2;
-    </script>
 
         <script>
         // Function to type text with a typewriter effect
