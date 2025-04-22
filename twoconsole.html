@@ -84,7 +84,7 @@ aclitus - English and Ancient Greek<!DOCTYPE html>
 
         /* Scrollbar styling */
         ::-webkit-scrollbar {
-            width: 1px;
+            width: 2px;
         }
 
         ::-webkit-scrollbar-track {
@@ -221,7 +221,7 @@ if __name__=="__main__":
   else:print(f"*{K}:{V}")
 `;
  const rightTextSource = `ΚΛΑΣΣΙΣ ΗΕΡΙΚΛΙΤΑΣ=ΝΕΟ ΚΛΑΣΣΙΣ(){
-import random\n
+import random
 def ΠΑΝΤΑ_ΡΕΙ(Τ):return Τ+random.uniform(-1,1)
 def ΛΟΓΟΣ(Τ):return sum(Τ)/len(Τ)
 def ΠΥΡ_ΑΡΧΗ(Τ):return Τ**1.5 if random.random()>0.5 else Τ**0.5
@@ -277,11 +277,11 @@ if __name__=="__main__":
             // Start with a slight delay between consoles
             setTimeout(() => {
                 typeText(leftConsole, leftTextSource, 20);
-            }, 500);
+            }, 300);
             
             setTimeout(() => {
                 typeText(rightConsole, rightTextSource, 15);
-            }, 1000);
+            }, 500);
         };
     </script>
 </body>
