@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Console Typing with Video Background</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            color: #00ff00; /* Classic green console color */
+        }
+
+        /* Video background container */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Behind everything */
+            overflow: hidden;
+        }
+
+        /* Video element */
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            opacity: 0.3; /* Semi-transparent video */
+            object-fit: cover;
+        }
+
+        /* Container for both consoles */
+        .consoles-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Individual console styling */
+        .console {
+            width: 50%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            overflow-y: auto;
+            position: relative;
+            z-index: 1; /* Above the video */
+        }
+
+        /* Left console specific */
+        .console-left {
+            border-right: 1px solid #00ff00;
+        }
+
+        /* Right console specific */
+        .console-right {
+            border-left: 1px solid #00ff00;
+        }
+
+        /* Typing text styling */
+        .typing-text {
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        /* Cursor animation */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #00ff00;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            from, to { background-color: transparent }
+            50% { background-color: #00ff00; }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="motormorph.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
+
+    <!-- Consoles Container -->
+    <div class="consoles-container">
+        <!-- Left Console -->
+        <div class="console console-left">
+            <div id="left-console-text" class="typing-text"></div>
+            <span class="cursor"></span>
+        </div>
+
+        <!-- Right Console -->
+        <div class="console console-right">
+            <div id="right-console-text" class="typing-text"></div>
+            <span class="cursor"></span>
+        </div>
+    </div>
+
+    <script>
+        // Text sources
+        const leftTextSource = `Welcome to System Console Alpha
+Initializing subsystems...
+- Memory: OK
+- Processing: OK
+- Network: OK
+- Security: OK
+
+System diagnostics complete.
+All systems nominal.
+
+User access requested...
+Authentication required.
+Enter credentials: 
+****************
+Access granted.
+
+> Loading primary interface
+> Establishing secure connection
+> Connection established at 192.168.1.105
+> Data transfer initialized
+
+Ready for commands.`;
+
+        const rightTextSource = `Secondary Terminal Online
+Establishing link to mainframe...
+Link established.
+
+Running system checks:
+- CPU Load: 23%
+- Memory Usage: 1.2GB/4GB
+- Disk Space: 450GB/1TB
+- Network Latency: 14ms
+
+Security Protocols:
+- Firewall: Active
+- Encryption: AES-256
+- Intrusion Detection: Enabled
+
+> Monitoring network traffic
+> Analyzing system logs
+> Scanning for anomalies
+> No threats detected
+
+Standing by for further instructions.`;
+
+        // Typing function
+        function typeText(element, text, speed) {
+            let i = 0;
+            function typing() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typing, speed);
+                    // Auto-scroll to bottom
+                    element.parentElement.scrollTop = element.parentElement.scrollHeight;
+                }
+            }
+            typing();
+        }
+
+        // Start typing on both consoles when page loads
+        window.onload = function() {
+            const leftConsole = document.getElementById('left-console-text');
+            const rightConsole = document.getElementById('right-console-text');
+            
+            // Start with a slight delay between consoles
+            setTimeout(() => {
+                typeText(leftConsole, leftTextSource, 20);
+            }, 500);
+            
+            setTimeout(() => {
+                typeText(rightConsole, rightTextSource, 15);
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
