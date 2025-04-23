@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Console Overlay</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            opacity: 0.3;
+            object-fit: cover;
+        }
+
+        .consoles-container {
+            position: relative;
+            height: 100vh;
+        }
+
+        .main-consoles {
+            display: flex;
+            height: 100%;
+            gap: 2px;
+        }
+
+        .console {
+            flex: 1;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 0.8);
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid #00ff00;
+            z-index: 1;
+        }
+
+        .floating-console {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 70%;
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff00;
+            z-index: 2;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .typing-text {
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #00ff00;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            from, to { background-color: transparent }
+            50% { background-color: #00ff00; }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-blue-circuits-97.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="consoles-container">
+        <div class="main-consoles">
+            <div class="console">
+                <div id="box1" class="typing-text"></div>
+                <span class="cursor"></span>
+            </div>
+            <div class="console">
+                <div id="box2" class="typing-text"></div>
+                <span class="cursor"></span>
+            </div>
+        </div>
+        
+        <div class="floating-console">
+            <div id="box3" class="typing-text"></div>
+            <span class="cursor"></span>
+        </div>
+    </div>
+
+    <script>
+        const textSources = {
+            box1: [
+                "MAIN SYSTEM STATUS\n",
+                "CPU Load: 38%\n",
+                "Memory Usage: 1.4GB\n",
+                "Network Throughput: 45Mbps\n",
+                "Active Connections: 128\n",
+                "Storage Available: 450GB\n",
+                "System Temperature: 44°C\n"
+            ],
+            box2: [
+                "SECURITY MONITOR\n",
+                "Firewall: ACTIVE\n",
+                "Intrusion Detection: ON\n",
+                "Last Scan: 2h 15m ago\n",
+                "Encryption Level: AES-256\n",
+                "VPN Status: CONNECTED\n",
+                "Threat Level: LOW\n"
+            ],
+            box3: [
+                "CENTRAL OVERLAY CONSOLE\n",
+                "Cross-system Analysis:\n",
+                " - Network Stability: 98%\n",
+                " - Security Concordance: 100%\n",
+                " - Resource Allocation: OPTIMAL\n",
+                "Critical Systems:\n",
+                " - Power: STABLE\n",
+                " - Cooling: NOMINAL\n",
+                " - Redundancy: ACTIVE\n",
+                "Global Status: ALL SYSTEMS GO\n"
+            ]
+        };
+
+        function createTyper(elementId, speed = 50, loopDelay = 2000) {
+            let index = 0;
+            const element = document.getElementById(elementId);
+            const lines = textSources[elementId];
+            
+            function typeLine() {
+                if (index < lines.length) {
+                    const line = lines[index];
+                    let charIndex = 0;
+                    
+                    function typeChar() {
+                        if (charIndex < line.length) {
+                            element.innerHTML += line.charAt(charIndex);
+                            charIndex++;
+                            setTimeout(typeChar, speed);
+                        } else {
+                            element.innerHTML += '\n';
+                            index++;
+                            setTimeout(typeLine, speed * 2);
+                        }
+                        element.parentElement.scrollTop = element.parentElement.scrollHeight;
+                    }
+                    
+                    typeChar();
+                } else {
+                    setTimeout(() => {
+                        element.innerHTML = '';
+                        index = 0;
+                        typeLine();
+                    }, loopDelay);
+                }
+            }
+            
+            typeLine();
+        }
+
+        window.onload = () => {
+            createTyper('box1', 30, 1500);
+            createTyper('box2', 35, 1800);
+            createTyper('box3', 25, 2500);
+        };
+    </script>
+</body>
+</html>
