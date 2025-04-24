@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lacanian Subject</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: 0;
+        }
+
+        .content-box {
+            position: relative;
+            width: 80%;
+            min-height: 300px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #fff;
+            color: white;
+            font-family: monospace;
+            overflow: hidden;
+        }
+
+        #content {
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <video src="motormorph1.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <div class="content-box">
+        <div id="content"></div>
+    </div>
+
+    <script>
+        const content = `CLASSLACANIANSUBJECT:DEF__INIT__(SELF):SELF.IMAGINARY={"EGO":NONE,"IDEAL-I":NONE,"MIRROR_IMAGE":NONE}SELF.SYMBOLIC={"LANGUAGE":[],"LAW":NONE,"DESIRE_STRUCTURES":[]}SELF.REAL={"TRAUMA":[],"OBJET_A":NONE,"JOUISSANCE":0}SELF.LACK=100SELF.SPLIT=TRUESELF.DESIRE_LOOP=NONEDEFMIRROR_STAGE(SELF,IMAGE,OTHER):SELF.IMAGINARY["EGO"]=IMAGESELF.IMAGINARY["IDEAL-I"]=IMAGE*1.5SELF.IMAGINARY["MIRROR_IMAGE"]=IMAGESELF.SYMBOLIC["LAW"]=OTHER.LAWSELF.LACK+=50DEFENTER_SYMBOLIC(SELF,LANGUAGE_SYSTEM):SELF.SYMBOLIC["LANGUAGE"]=LANGUAGE_SYSTEM.ENCODE("DESIRE")SELF.SPLIT=TRUESELF.REAL["OBJET_A"]=SELF.GENERATE_OBJET_A()DEFGENERATE_OBJET_A(SELF):RETURNF"LOST_OBJECT_{HASH(SELF.LACK)}"DEFDESIRE_CYCLE(SELF,OTHER):WHILETRUE:CURRENT_DESIRE=SELF.SYMBOLIC["DESIRE_STRUCTURES"].POP(0)IFSELF.ATTEMPT_SATISFACTION(CURRENT_DESIRE):SELF.REAL["JOUISSANCE"]+=SELF.LACK*0.75SELF.SYMBOLIC["DESIRE_STRUCTURES"].APPEND(OTHER.REDIRECT_DESIRE(CURRENT_DESIRE))ELSE:SELF.REAL["TRAUMA"].APPEND("FAILED_DESIRE")DEFENCOUNTER_REAL(SELF,EVENT):TRY:ENCODED_EVENT=SELF.SYMBOLIC["LANGUAGE"].ENCODE(EVENT)EXCEPTTRAUMAERROR:SELF.REAL["TRAUMA"].APPEND(EVENT)SELF.IMAGINARY["EGO"]*=0.9SELF.DESIRE_CYCLE.INTENSITY+=1`;
+
+        const fonts = ['Arial', 'Courier', 'System', 'Impact', 'Times New Roman'];
+        const contentDiv = document.getElementById('content');
+        let index = 0;
+
+        function typeText() {
+            if (index < content.length) {
+                const char = content.charAt(index);
+                const span = document.createElement('span');
+                
+                // Random font and size
+                const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+                const randomSize = Math.floor(Math.random() * 15) + 10;
+                
+                span.style.fontFamily = randomFont;
+                span.style.fontSize = `${randomSize}px`;
+                span.textContent = char;
+                
+                contentDiv.appendChild(span);
+                index++;
+                setTimeout(typeText, 50);
+            }
+        }
+
+        // Start typing effect
+        window.onload = typeText;
+    </script>
+</body>
+</html>
