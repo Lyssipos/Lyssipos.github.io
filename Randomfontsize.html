@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lacanian Subject</title>
+    <title>Experimental Text Display</title>
     <style>
         * {
             margin: 0;
@@ -17,66 +17,73 @@
             bottom: 0;
             min-width: 100%;
             min-height: 100%;
-            z-index: 0;
+            z-index: -1;
+            filter: contrast(150%);
         }
 
-        .content-box {
+        .text-container {
             position: relative;
             width: 80%;
-            
-            height: 100%;
-            margin: 50px auto;
-            padding: 30px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid #fff;
+            margin: 5% auto;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            font-family: monospace;
+            line-height: 1.6;
+            min-height: 60vh;
             overflow: hidden;
+            word-break: break-all;
         }
 
-        #content {
-            white-space: pre-wrap;
-            line-height: 1.5;
+        #text-content {
+            font-family: Arial, sans-serif;
+        }
+
+        .char {
+            display: inline-block;
+            transition: opacity 0.3s;
         }
     </style>
 </head>
 <body>
-    <video src="motormorph1.mp4" type="video/mp4" autoplay loop >
-        Your browser does not support HTML5 video.
+    <video autoplay muted loop>
+        <source src="motormorph1.mp4" type="video/mp4">
     </video>
 
-    <div class="content-box">
-        <div id="content"></div>
+    <div class="text-container">
+        <div id="text-content"></div>
     </div>
 
     <script>
-        const content = `CLASSLACANIANSUBJECT:DEF__INIT__(SELF):SELF.IMAGINARY={"EGO":NONE,"IDEAL-I":NONE,"MIRROR_IMAGE":NONE}/nSELF.SYMBOLIC={"LANGUAGE":[],"LAW":NONE,"DESIRE_STRUCTURES":[]/n}SELF.REAL={"TRAUMA":[],"OBJET_A":NONE,"JOUISSANCE":0}/nSELF.LACK=100SELF.SPLIT=TRUESELF.DESIRE_LOOP=NONEDEFMIRROR_STAGE(SELF,IMAGE,OTHER):/nSELF.IMAGINARY["EGO"]=IMAGESELF.IMAGINARY["IDEAL-I"]=IMAGE*1.5SELF.IMAGINARY["MIRROR_IMAGE"]=IMAGESELF.SYMBOLIC["LAW"]=OTHER.LAWSELF.LACK+=50DEFENTER_SYMBOLIC(SELF,LANGUAGE_SYSTEM):SELF.SYMBOLIC["LANGUAGE"]=LANGUAGE_SYSTEM.ENCODE("DESIRE")SELF.SPLIT=TRUESELF.REAL["OBJET_A"]=SELF.GENERATE_OBJET_A()DEFGENERATE_OBJET_A(SELF):RETURNF"LOST_OBJECT_{HASH(SELF.LACK)}"DEFDESIRE_CYCLE(SELF,OTHER):WHILETRUE:CURRENT_DESIRE=SELF.SYMBOLIC["DESIRE_STRUCTURES"].POP(0)IFSELF.ATTEMPT_SATISFACTION(CURRENT_DESIRE):SELF.REAL["JOUISSANCE"]+=SELF.LACK*0.75SELF.SYMBOLIC["DESIRE_STRUCTURES"].APPEND(OTHER.REDIRECT_DESIRE(CURRENT_DESIRE))ELSE:SELF.REAL["TRAUMA"].APPEND("FAILED_DESIRE")DEFENCOUNTER_REAL(SELF,EVENT):TRY:ENCODED_EVENT=SELF.SYMBOLIC["LANGUAGE"].ENCODE(EVENT)EXCEPTTRAUMAERROR:SELF.REAL["TRAUMA"].APPEND(EVENT)SELF.IMAGINARY["EGO"]*=0.9SELF.DESIRE_CYCLE.INTENSITY+=1`;
+        const textContent = `CLASSLACANIANSUBJECT:DEF__INIT__(SELF):SELF.IMAGINARY={"EGO":NONE,"IDEAL-I":NONE,"MIRROR_IMAGE":NONE}SELF.SYMBOLIC={"LANGUAGE":[],"LAW":NONE,"DESIRE_STRUCTURES":[]}SELF.REAL={"TRAUMA":[],"OBJET_A":NONE,"JOUISSANCE":0}SELF.LACK=100SELF.SPLIT=TRUESELF.DESIRE_LOOP=NONEDEFMIRROR_STAGE(SELF,IMAGE,OTHER):SELF.IMAGINARY["EGO"]=IMAGESELF.IMAGINARY["IDEAL-I"]=IMAGE*1.5SELF.IMAGINARY["MIRROR_IMAGE"]=IMAGESELF.SYMBOLIC["LAW"]=OTHER.LAWSELF.LACK+=50DEFENTER_SYMBOLIC(SELF,LANGUAGE_SYSTEM):SELF.SYMBOLIC["LANGUAGE"]=LANGUAGE_SYSTEM.ENCODE("DESIRE")SELF.SPLIT=TRUESELF.REAL["OBJET_A"]=SELF.GENERATE_OBJET_A()DEFGENERATE_OBJET_A(SELF):RETURNF"LOST_OBJECT_{HASH(SELF.LACK)}"DEFDESIRE_CYCLE(SELF,OTHER):WHILETRUE:CURRENT_DESIRE=SELF.SYMBOLIC["DESIRE_STRUCTURES"].POP(0)IFSELF.ATTEMPT_SATISFACTION(CURRENT_DESIRE):SELF.REAL["JOUISSANCE"]+=SELF.LACK*0.75SELF.SYMBOLIC["DESIRE_STRUCTURES"].APPEND(OTHER.REDIRECT_DESIRE(CURRENT_DESIRE))ELSE:SELF.REAL["TRAUMA"].APPEND("FAILED_DESIRE")DEFENCOUNTER_REAL(SELF,EVENT):TRY:ENCODED_EVENT=SELF.SYMBOLIC["LANGUAGE"].ENCODE(EVENT)EXCEPTTRAUMAERROR:SELF.REAL["TRAUMA"].APPEND(EVENT)SELF.IMAGINARY["EGO"]*=0.9SELF.DESIRE_CYCLE.INTENSITY+=1`;
+        const fonts = ['Arial', 'Courier', 'system-ui', 'Impact', 'Times New Roman'];
+        const textDisplay = document.getElementById('text-content');
+        let currentIndex = 0;
 
-        const fonts = ['Arial', 'Courier', 'System', 'Impact', 'Times New Roman'];
-        const contentDiv = document.getElementById('content');
-        let index = 0;
+        function getRandomStyle() {
+            return {
+                fontFamily: fonts[Math.floor(Math.random() * fonts.length)],
+                fontSize: `${Math.floor(Math.random() * 15) + 10}px`,
+                opacity: Math.random() * 0.5 + 0.5
+            };
+        }
 
-        function typeText() {
-            if (index < content.length) {
-                const char = content.charAt(index);
-                const span = document.createElement('span');
+        function addCharacter() {
+            if (currentIndex < textContent.length) {
+                const charSpan = document.createElement('span');
+                charSpan.className = 'char';
+                charSpan.textContent = textContent[currentIndex];
                 
-                // Random font and size
-                const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
-                const randomSize = Math.floor(Math.random() * 15) + 10;
+                const styles = getRandomStyle();
+                Object.assign(charSpan.style, styles);
                 
-                span.style.fontFamily = randomFont;
-                span.style.fontSize = `${randomSize}px`;
-                span.textContent = char;
-                
-                contentDiv.appendChild(span);
-                index++;
-                setTimeout(typeText, 50);
+                textDisplay.appendChild(charSpan);
+                currentIndex++;
+                setTimeout(addCharacter, Math.random() * 50 + 25);
             }
         }
 
-        // Start typing effect
-        window.onload = typeText;
+        window.addEventListener('load', addCharacter);
     </script>
 </body>
 </html>
