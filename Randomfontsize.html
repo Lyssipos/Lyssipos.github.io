@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Experimental Text Display</title>
     <style>
+        body {
+            background : #ffffff;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -27,7 +30,7 @@
             margin: 5% auto;
             padding: 2rem;
             background: rgba(0, 0, 0, 0);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 0px solid rgba(255, 255, 255, 0.2);
             color: white;
             line-height: 1;
            // min-height: 60vh;(
@@ -84,7 +87,7 @@ print(SOLVE_SPHINX_RIDDLE)
         function getRandomStyle() {
             return {
                 fontFamily: fonts[Math.floor(Math.random() * fonts.length)],
-                fontSize: `${Math.floor(Math.random() * 35) + 20}px`,
+                fontSize: `${Math.floor(Math.random() * 15) + 10}px`,
                 opacity: Math.random() * 0.5 + 0.5
             };
         }
