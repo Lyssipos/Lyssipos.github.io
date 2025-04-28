@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Console Overlay</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            opacity: 0.3;
+            object-fit: cover;
+        }
+
+        .consoles-container {
+            position: relative;
+            height: 100vh;
+        }
+
+        .main-consoles {
+            display: flex;
+            height: 100%;
+            gap: 2px;
+        }
+
+        .console {
+            flex: 1;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 0.8);
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid #00ff00;
+            z-index: 1;
+        }
+
+        .floating-console {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 70%;
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff00;
+            z-index: 2;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .typing-text {
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #00ff00;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            from, to { background-color: transparent }
+            50% { background-color: #00ff00; }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-blue-circuits-97.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="consoles-container">
+        <div class="main-consoles">
+            <div class="console">
+                <div id="box1" class="typing-text"></div>
+                <span class="cursor"></span>
+            </div>
+            <div class="console">
+                <div id="box2" class="typing-text"></div>
+                <span class="cursor"></span>
+            </div>
+        </div>
+        
+        <div class="floating-console">
+            <div id="box3" class="typing-text"></div>
+            <span class="cursor"></span>
+        </div>
+    </div>
+
+    <script>
+        const textSources = {
+            box1: [
+            "def generate_radical_otherness():",
+            "    while True:",
+            "        # 1. Begin with degradation",
+            "        raw_material = scrape_societal_shame()  # Collect moral judgments, slurs",
+            "        fragments = fracture_language(raw_material)",
+            "",
+            "        # 2. Apply Genet's transformative filters",
+            "        for fragment in fragments:",
+            "            if fragment == \"criminal\":",
+            "                replace_with = \"saint\" + random.choice([\" of moonlight\", \" with a knife\"])",
+            "            elif fragment == \"sin\":",
+            "                replace_with = \"ceremony\" + amplify_queerness(fragment)",
+            "            elif fragment == \"law\":",
+            "                replace_with = invert_hierarchy(fragment)",
+            "            else:",
+            "                replace_with = glitch(fragment) + adorn_with_flowers()",
+            "",
+            "        # 3. Recompose via betrayal",
+            "        poem = recompose(fragments, logic=\"chaotic\", seed=desire)",
+            "",
+            "        # 4. Illuminate the convict's glory",
+            "        if check_transcendence(poem):",
+            "            cast_light(poem, intensity=shame*2)",
+            "        else:",
+            "            loop_with_amplified_vice(poem)",
+            "        return poem"
+        ],
+
+            box2:  [
+            "def générer_altérité_radicale():",
+            "    while True:",
+            "        # 1. Puiser dans l'abjection",
+            "        matériau_brut = collecter_la_honte_sociale()",
+            "        fragments = briser_le_langage(matière_brut, outil=\"couteau_volé\")",
+            "",
+            "        # 2. Inverser la hiérarchie morale",
+            "        for fragment in fragments:",
+            "            if fragment == \"criminel\":",
+            "                remplacer_par = \"saint\" + choisir_aléatoire([\" des ténèbres\", \" au couteau luisant\"])",
+            "            elif fragment == \"péché\":",
+            "                remplacer_par = \"cérémonie\" + amplifier_la_ferveur_queer(fragment)",
+            "            elif fragment == \"la loi\":",
+            "                remplacer_par = inverser_la_honorabilité(fragment)",
+            "            else:",
+            "                remplacer_par = pourrir(fragment) + orner_de_fleurs_putréfiées()",
+            "",
+            "        # 3. Recomposer par la trahison",
+            "        poème = recomposer_les_morceaux(fragments, logique=\"chaos\", semence=désir)",
+            "",
+            "        # 4. Illuminer la gloire du forçat",
+            "        if vérifier_la_transcendance(poème):",
+            "            projeter_lumière(poème, intensité=déchéance * 100)",
+            "        else:",
+            "            replonger_dans_le_vice(poème)",
+            "        return poème"
+        ],
+
+            box3:[
+    // Criminality as Rebellion
+    "\"I recognise that I alone, of all the present-day beggars, chose to be the thief I am...\"",
+    "\"Je suis le seul, parmi les mendiants d'aujourd'hui, à avoir choisi d'être le voleur que je suis...\"",
+    "",
+    // Beauty in Degradation
+    "\"I was sure that this baseness would dazzle me, that the acquiescence would transfigure me...\"",
+    "\"J'étais sûr que cette bassesse m'éblouirait, que le consentement me transfigurerait...\"",
+    "",
+    // Queer Sainthood
+    "\"The grandeur of Sodom lies in the saintliness acquired by its inhabitants...\"",
+    "\"La grandeur de Sodome, c'est la sainteté de ses habitants...\"",
+    "",
+    // Betrayal as Virtue
+    "\"Betrayal... is my fundamental reason for being. I need to feel that I am the one who chooses...\"",
+    "\"La trahison... est ma raison d'être fondamentale. Il me faut sentir que c'est moi qui choisis...\"",
+    "",
+    // Convict's Glory
+    "\"The convict's outfit is made of sunlight. It is orange and red...\"",
+    "\"Le costume du forçat est fait de soleil. Il est orange et rouge...\"",
+    "",
+    // Evil as Luxury
+    "\"Evil is a luxury. Those who can afford it are the aristocrats of the underworld...\"",
+    "\"Le mal est un luxe. Ceux qui peuvent se le payer sont les aristocrates du bas-fond...\"",
+    "",
+    // Absolute Negation
+    "\"I wanted to erect my dishonor into a kind of sovereignty...\"",
+    "\"Je voulais ériger mon déshonneur en une sorte de souveraineté...\"",
+    "",
+    // Elegance as Criterion
+    "\"The only criterion of an act is its elegance...\"",
+    "\"Le seul critère d'un acte, c'est son élégance...\"",
+    "",
+    // Prison Society
+    "\"Prison is a society in miniature, but one where the hierarchy is based on crime alone...\"",
+    "\"La prison est une société en miniature, mais où la hiérarchie ne repose que sur le crime...\"",
+    "",
+    // Verbal Victory
+    "\"My victory is verbal. I derive glory from it...\"",
+    "\"Ma victoire est verbale. J'en tire gloire...\""
+  ]
+
+        };
+
+        function createTyper(elementId, speed = 50, loopDelay = 2000) {
+            let index = 0;
+            const element = document.getElementById(elementId);
+            const lines = textSources[elementId];
+            
+            function typeLine() {
+                if (index < lines.length) {
+                    const line = lines[index];
+                    let charIndex = 0;
+                    
+                    function typeChar() {
+                        if (charIndex < line.length) {
+                            element.innerHTML += line.charAt(charIndex);
+                            charIndex++;
+                            setTimeout(typeChar, speed);
+                        } else {
+                            element.innerHTML += '\n';
+                            index++;
+                            setTimeout(typeLine, speed * 2);
+                        }
+                        element.parentElement.scrollTop = element.parentElement.scrollHeight;
+                    }
+                    
+                    typeChar();
+                } else {
+                    setTimeout(() => {
+                        element.innerHTML = '';
+                        index = 0;
+                        typeLine();
+                    }, loopDelay);
+                }
+            }
+            
+            typeLine();
+        }
+
+        window.onload = () => {
+            createTyper('box1', 30, 1500);
+            createTyper('box2', 35, 1800);
+            createTyper('box3', 25, 2500);
+        };
+    </script>
+</body>
+</html>
+
