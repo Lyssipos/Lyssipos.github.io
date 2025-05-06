@@ -25,14 +25,14 @@
         }
 
         .text-container {
-            position: fixed;
+            position: centre;
             width: 50%;
             margin: 5% auto;
             //padding: 2rem;
             background: rgba(0, 0, 0, 0);
             //border: 0px solid rgba(255, 255, 255, 0.2);
             color: white;
-            line-height: 1.2;
+            line-height: 1;
             //min-height: 60vh;(
             overflow: hidden;
             word-break: break-all;
@@ -83,7 +83,7 @@ console.log(oracleOfDelphi("yourName")); // Invoke the Divine
         function getRandomStyle() {
             return {
                 fontFamily: fonts[Math.floor(Math.random() * fonts.length)],
-                fontSize: `${Math.floor(Math.random() * 35) + 10}px`,
+                fontSize: `${Math.floor(Math.random() * 5) + 10}px`,
                 opacity: Math.random() * 0.5 + 0.5
             };
         }
