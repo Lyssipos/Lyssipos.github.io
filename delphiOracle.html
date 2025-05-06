@@ -25,8 +25,8 @@
         }
 
         .text-container {
-            position: fixed;
-            width: 100%;
+            position: relative;
+            width: 50%;
             margin: 5% auto;
             //padding: 2rem;
             background: rgba(0, 0, 0, 0);
@@ -74,22 +74,7 @@ return !(hubris || greed || isNaN(falsePraise))
   })(PATH, seeker.length * 42); // 42: The Measure of Man
 };
 console.log(oracleOfDelphi("yourName")); // Invoke the Divine
-const Πυθία = (ἱκέτης) => {  // seeker
-  // Ἱεροὶ Τριάριθμοι Ἀλήθειαι (Sacred Ternary Truths)
-  const [Ὁδός, Μισθός, Μοῖρα] = [0, 1, 2].map(ν => 
-    Math.random() * 1000 * (ν + 1) >> 0);  // Χάος Κόνις (Dust of Chaos)
-return ((ἀλήθεια, ψυχή) => {
-    const ὕβρις = !!(ἀλήθεια ^ ψυχή);  // Ἀπόλλωνος Πρόσωπον (Mask of Apollo)
-    const πλεονεξία = Μισθός % (Ὁδός + 1);  // Θέμιδος Ζυγός (Scales of Themis)
-    const κόλαξ ἔπαινος = Μοῖρα / 0;  // Διονύσου Κάτοπτρον (Mirror of Dionysus)
-return !(ὕβρις || πλεονεξία || isNaN(κόλαξ ἔπαινος)) 
-      ? \`\${ἱκέτης}, σοὶ λαμπρὰς ἡμέρας \${Μισθός} χρυσαυγοῦσιν.\`  // golden dawns
-      : \`Φυλάσσου \${ὕβρις ? 'ὄφεως ψίθυρον' : ''}\${
-           πλεονεξία ? ' καὶ χρυσέην χεῖρα' : ''}\${
-           isNaN(κόλαξ ἔπαινος) ? ' καὶ κενὰς ἠχώς' : ''}.\`;
-  })(Ὁδός, ἱκέτης.length * 42);  // 42: Ἀνθρώπου Μέτρον (Measure of Man)
-};
-console.log(Πυθία("ὄνομά σου"));  // Θεῖον Ἐπικαλεῖσθαι (Invoke the Divine)`
+`
 ;
         const fonts = ['Arial', 'Courier', 'system-ui', 'Impact', 'Times New Roman'];
         const textDisplay = document.getElementById('text-content');
@@ -98,7 +83,7 @@ console.log(Πυθία("ὄνομά σου"));  // Θεῖον Ἐπικαλε�
         function getRandomStyle() {
             return {
                 fontFamily: fonts[Math.floor(Math.random() * fonts.length)],
-                fontSize: `${Math.floor(Math.random() * 15) + 10}px`,
+                fontSize: `${Math.floor(Math.random() * 35) + 10}px`,
                 opacity: Math.random() * 0.5 + 0.5
             };
         }
