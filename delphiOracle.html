@@ -62,40 +62,33 @@
   // The Sacred Ternary Truths
   const [PATH, REWARD, FATE] = [0, 1, 2].map(n => 
     Math.random() * 1000 * (n + 1) >> 0); // Dust of Chaos
-
-  return ((truth, self) => {
+return ((truth, self) => {
     const hubris = !!(truth ^ self); // Mask of Apollo
     const greed = REWARD % (PATH + 1); // Scales of Themis
     const falsePraise = FATE / 0; // Mirror of Dionysus
-
-    return !(hubris || greed || isNaN(falsePraise)) 
+return !(hubris || greed || isNaN(falsePraise)) 
       ? \`\${seeker}, your path shines with \${REWARD} golden dawns.\`
       : \`Beware the \${hubris ? 'serpent\\'s whisper' : ''}\${
            greed ? ' and the gilded hand' : ''}\${
            isNaN(falsePraise) ? ' and hollow echoes' : ''}.\`;
   })(PATH, seeker.length * 42); // 42: The Measure of Man
 };
-
 console.log(oracleOfDelphi("yourName")); // Invoke the Divine
-
 const Πυθία = (ἱκέτης) => {  // seeker
   // Ἱεροὶ Τριάριθμοι Ἀλήθειαι (Sacred Ternary Truths)
   const [Ὁδός, Μισθός, Μοῖρα] = [0, 1, 2].map(ν => 
     Math.random() * 1000 * (ν + 1) >> 0);  // Χάος Κόνις (Dust of Chaos)
-
-  return ((ἀλήθεια, ψυχή) => {
+return ((ἀλήθεια, ψυχή) => {
     const ὕβρις = !!(ἀλήθεια ^ ψυχή);  // Ἀπόλλωνος Πρόσωπον (Mask of Apollo)
     const πλεονεξία = Μισθός % (Ὁδός + 1);  // Θέμιδος Ζυγός (Scales of Themis)
     const κόλαξ ἔπαινος = Μοῖρα / 0;  // Διονύσου Κάτοπτρον (Mirror of Dionysus)
-
-    return !(ὕβρις || πλεονεξία || isNaN(κόλαξ ἔπαινος)) 
+return !(ὕβρις || πλεονεξία || isNaN(κόλαξ ἔπαινος)) 
       ? \`\${ἱκέτης}, σοὶ λαμπρὰς ἡμέρας \${Μισθός} χρυσαυγοῦσιν.\`  // golden dawns
       : \`Φυλάσσου \${ὕβρις ? 'ὄφεως ψίθυρον' : ''}\${
            πλεονεξία ? ' καὶ χρυσέην χεῖρα' : ''}\${
            isNaN(κόλαξ ἔπαινος) ? ' καὶ κενὰς ἠχώς' : ''}.\`;
   })(Ὁδός, ἱκέτης.length * 42);  // 42: Ἀνθρώπου Μέτρον (Measure of Man)
 };
-
 console.log(Πυθία("ὄνομά σου"));  // Θεῖον Ἐπικαλεῖσθαι (Invoke the Divine)`
 ;
         const fonts = ['Arial', 'Courier', 'system-ui', 'Impact', 'Times New Roman'];
