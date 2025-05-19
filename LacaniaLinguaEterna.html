@@ -3,89 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinite Typing Scroll</title>
+    <title>Infinite Text Scroll</title>
     <style>
         body {
-            font-family: 'Noto Sans', Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            font-family: 'Noto Sans', Arial, sans-serif;
         }
-        .controls {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
+        
+        #video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            opacity: 0.7;
         }
-        .scroll-container {
-            height: 500px;
-            width: 800px;
-            overflow-y: hidden;
-            border: 1px solid #ccc;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: relative;
-            transition: width 0.3s ease;
-        }
-        #scrolling-content {
+        
+        .text-container {
             position: absolute;
-            width: calc(100% - 40px);
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-size: 18px;
+            width: 95%;
+            height: 95%;
+            left: 2.5%;
+            top: 2.5%;
+            overflow: hidden;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-size: 2.2vmin;
             line-height: 1.6;
         }
-        label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        button {
-            padding: 8px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        input[type="range"] {
-            width: 150px;
-        }
-        .value-display {
-            min-width: 40px;
-            text-align: center;
+        
+        #scrolling-text {
+            position: absolute;
+            width: 100%;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Sans+KR&family=Noto+Sans+SC&family=Noto+Sans+Arabic&family=Noto+Sans+Devanagari&family=Noto+Sans+Thai&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Infinite Typing Scroll</h1>
+    <video autoplay muted loop id="video-background">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-background-with-moving-lines-1761-large.mp4" type="video/mp4">
+    </video>
     
-    <div class="controls">
-        <label>
-            Scroll Speed:
-            <input type="range" id="speed-control" min="1" max="100" value="50">
-            <span class="value-display" id="speed-value">50</span>
-        </label>
-        
-        <label>
-            Text Width:
-            <input type="range" id="width-control" min="300" max="1200" value="800">
-            <span class="value-display" id="width-value">800px</span>
-        </label>
-        
-        <button id="pause-btn">Pause</button>
+    <div class="text-container">
+        <div id="scrolling-text"></div>
     </div>
-    
-    <div class="scroll-container" id="scroll-container">
-        <div id="scrolling-content"></div>
-    </
+
+    <script>
+        // The complete text without line breaks
+        const lacanQuote = `I speak without knowing it. I speak with my body and I do so unbeknownst to myself. Thus I always say more than I know. Je parle sans le savoir. Je parle avec mon corps et je le fais sans le savoir. Je dis donc toujours plus que je n'en sais. من ناخودآگاه سخن می‌گویم. با بدنم سخن می‌گویم و این را ناآگاهانه انجام می‌دهم. بنابراین، همیشه بیش از آنچه می‌دانم می‌گویم. أنا أتحدث دون أن أعرف ذلك. أتحدث بجسدي وأفعل ذلك دون أن أدري. وهكذا أقول دائمًا أكثر مما أعرف. میں بے خبری میں بولتا ہوں۔ میں اپنے جسم سے بولتا ہوں اور یہ میں نادانستہ طور پر کرتا ہوں۔ اس طرح، میں ہمیشہ جو کچھ جانتا ہوں اس سے زیادہ کہتا ہوں۔ 我在不知不觉中言说。我用我的身体言说，而我对此一无所知。因此，我总是说出比我所知道的更多的东西。 Λέγω ἄνευ εἰδότος. Λέγω τῷ σώματι καὶ τοῦτο ποιῶ ἀγνοῶν. Οὕτως ἀεὶ πλέον λέγω ἢ οἶδα. Μιλάω χωρίς να το ξέρω. Μιλάω με το σώμα μου και το κάνω χωρίς να το αντιλαμβάνομαι. Έτσι, λέω πάντα περισσότερα από όσα γνωρίζω. Ich spreche, ohne es zu wissen. Ich spreche mit meinem Körper und tue dies unwissentlich. So sage ich immer mehr, als ich weiß. Я говорю, не зная этого. Я говорю своим телом и делаю это неосознанно. Таким образом, я всегда говорю больше, чем знаю. Я говорю, не знаючи цього. Я говорю своїм тілом і роблю це несвідомо. Тому я завжди кажу більше, ніж знаю. मैं बिना जाने बोलता हूँ। मैं अपने शरीर से बोलता हूँ और यह अनजाने में करता हूँ। इस तरह, मैं हमेशा जितना जानता हूँ उससे ज्यादा कहता हूँ। 私は知らずに話す。私は体で話し、無意識にそうする。だから私はいつも、自分が知っている以上を語るのだ。 나는 모르고 말한다. 나는 내 몸으로 말하고, 나도 모르게 그렇게 한다. 그래서 나는 항상 내가 아는 것보다 더 많이 말한다. Aku berbicara tanpa mengetahuinya. Aku berbicara dengan tubuhku dan melakukannya tanpa sadar. Jadi, aku selalu mengatakan lebih dari yang aku tahu. Говорим а да не знам. Говорим својим телом и чиним то несвесно. Тако увек кажем више него што знам. Зборувам без да знам. Зборувам со своето тело и го правам тоа несвесно. Така, секогаш кажувам повеќе отколку што знам. Vorbesc fără să știu. Vorbesc cu corpul meu și fac asta fără să-mi dau seama. Astfel, spun întotdeauna mai mult decât știu. Mluvím, aniž bych to věděl. Mluvím svým tělem a dělám to nevědomky. Takže vždy říkám víc, než vím. Puhun tietämättäni. Puhun kehollani ja teen sen tietämättäni. Siksi sanon aina enemmän kuin tiedän. Jeg taler uden at vide det. Jeg taler med min krop og gør det ubevidst. Således siger jeg altid mere, end jeg ved. Jeg snakker uten å vite det. Jeg snakker med kroppen min og gjør det ubevisst. Dermed sier jeg alltid mer enn jeg vet. Hablo sin saberlo. Hablo con mi cuerpo y lo hago sin saberlo. Así, siempre digo más de lo que sé. Parlo senza saperlo. Parlo con il mio corpo e lo faccio inconsapevolmente. Così dico sempre più di quanto so. Loquor nescius. Loquor cum corpore meo idque me insciente facio. Sic semper plus dico quam scio. ฉันพูดโดยไม่รู้ตัว ฉันพูดด้วยร่างกายและทำไปโดยไม่รู้ตัว ดังนั้นฉันจึงพูดมากกว่าที่รู้เสมอ`;
+
+        // DOM elements
+        const scrollingText = document.getElementById('scrolling-text');
+        const textContainer = document.querySelector('.text-container');
+        
+        // Animation variables
+        let scrollPosition = 0;
+        let scrollSpeed = 1;
+        let animationId;
+        
+        // Initialize text - duplicate for seamless looping
+        scrollingText.textContent = lacanQuote + " " + lacanQuote;
+        
+        function scrollText() {
+            scrollPosition += scrollSpeed;
+            
+            // Reset position when we've scrolled one full length
+            if (scrollPosition > textContainer.scrollHeight / 2) {
+                scrollPosition = 0;
+            }
+            
+            textContainer.scrollTop = scrollPosition;
+            animationId = requestAnimationFrame(scrollText);
+        }
+        
+        // Start scrolling
+        scrollText();
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            scrollingText.style.width = textContainer.clientWidth + 'px';
+        });
+        
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            cancelAnimationFrame(animationId);
+        });
+    </script>
+</body>
+</html>
