@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinite Multilingual Text Scroll</title>
+    <title>Infinite Typing Scroll</title>
     <style>
         body {
             font-family: 'Noto Sans', Arial, sans-serif;
@@ -24,6 +24,7 @@
         }
         .scroll-container {
             height: 500px;
+            width: 800px;
             overflow-y: hidden;
             border: 1px solid #ccc;
             padding: 20px;
@@ -32,10 +33,11 @@
             position: relative;
             transition: width 0.3s ease;
         }
-        #scrolling-text {
+        #scrolling-content {
             position: absolute;
-            white-space: nowrap;
-            width: 100%;
+            width: calc(100% - 40px);
+            white-space: pre-wrap;
+            word-wrap: break-word;
             font-size: 18px;
             line-height: 1.6;
         }
@@ -66,7 +68,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Sans+KR&family=Noto+Sans+SC&family=Noto+Sans+Arabic&family=Noto+Sans+Devanagari&family=Noto+Sans+Thai&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Infinite Multilingual Text Scroll</h1>
+    <h1>Infinite Typing Scroll</h1>
     
     <div class="controls">
         <label>
@@ -84,81 +86,6 @@
         <button id="pause-btn">Pause</button>
     </div>
     
-    <div class="scroll-container" id="scroll-container" style="width: 800px;">
-        <div id="scrolling-text"></div>
-    </div>
-
-    <script>
-        // The complete text without line breaks
-        const lacanQuote = `I speak without knowing it. I speak with my body and I do so unbeknownst to myself. Thus I always say more than I know. Je parle sans le savoir. Je parle avec mon corps et je le fais sans le savoir. Je dis donc toujours plus que je n'en sais. من ناخودآگاه سخن می‌گویم. با بدنم سخن می‌گویم و این را ناآگاهانه انجام می‌دهم. بنابراین، همیشه بیش از آنچه می‌دانم می‌گویم. أنا أتحدث دون أن أعرف ذلك. أتحدث بجسدي وأفعل ذلك دون أن أدري. وهكذا أقول دائمًا أكثر مما أعرف. میں بے خبری میں بولتا ہوں۔ میں اپنے جسم سے بولتا ہوں اور یہ میں نادانستہ طور پر کرتا ہوں۔ اس طرح، میں ہمیشہ جو کچھ جانتا ہوں اس سے زیادہ کہتا ہوں۔ 我在不知不觉中言说。我用我的身体言说，而我对此一无所知。因此，我总是说出比我所知道的更多的东西。 Λέγω ἄνευ εἰδότος. Λέγω τῷ σώματι καὶ τοῦτο ποιῶ ἀγνοῶν. Οὕτως ἀεὶ πλέον λέγω ἢ οἶδα. Μιλάω χωρίς να το ξέρω. Μιλάω με το σώμα μου και το κάνω χωρίς να το αντιλαμβάνομαι. Έτσι, λέω πάντα περισσότερα από όσα γνωρίζω. Ich spreche, ohne es zu wissen. Ich spreche mit meinem Körper und tue dies unwissentlich. So sage ich immer mehr, als ich weiß. Я говорю, не зная этого. Я говорю своим телом и делаю это неосознанно. Таким образом, я всегда говорю больше, чем знаю. Я говорю, не знаючи цього. Я говорю своїм тілом і роблю це несвідомо. Тому я завжди кажу більше, ніж знаю. मैं बिना जाने बोलता हूँ। मैं अपने शरीर से बोलता हूँ और यह अनजाने में करता हूँ। इस तरह, मैं हमेशा जितना जानता हूँ उससे ज्यादा कहता हूँ। 私は知らずに話す。私は体で話し、無意識にそうする。だから私はいつも、自分が知っている以上を語るのだ。 나는 모르고 말한다. 나는 내 몸으로 말하고, 나도 모르게 그렇게 한다. 그래서 나는 항상 내가 아는 것보다 더 많이 말한다. Aku berbicara tanpa mengetahuinya. Aku berbicara dengan tubuhku dan melakukannya tanpa sadar. Jadi, aku selalu mengatakan lebih dari yang aku tahu. Говорим а да не знам. Говорим својим телом и чиним то несвесно. Тако увек кажем више него што знам. Зборувам без да знам. Зборувам со своето тело и го правам тоа несвесно. Така, секогаш кажувам повеќе отколку што знам. Vorbesc fără să știu. Vorbesc cu corpul meu și fac asta fără să-mi dau seama. Astfel, spun întotdeauna mai mult decât știu. Mluvím, aniž bych to věděl. Mluvím svým tělem a dělám to nevědomky. Takže vždy říkám víc, než vím. Puhun tietämättäni. Puhun kehollani ja teen sen tietämättäni. Siksi sanon aina enemmän kuin tiedän. Jeg taler uden at vide det. Jeg taler med min krop og gør det ubevidst. Således siger jeg altid mere, end jeg ved. Jeg snakker uten å vite det. Jeg snakker med kroppen min og gjør det ubevisst. Dermed sier jeg alltid mer enn jeg vet. Hablo sin saberlo. Hablo con mi cuerpo y lo hago sin saberlo. Así, siempre digo más de lo que sé. Parlo senza saperlo. Parlo con il mio corpo e lo faccio inconsapevolmente. Così dico sempre più di quanto so. Loquor nescius. Loquor cum corpore meo idque me insciente facio. Sic semper plus dico quam scio. ฉันพูดโดยไม่รู้ตัว ฉันพูดด้วยร่างกายและทำไปโดยไม่รู้ตัว ดังนั้นฉันจึงพูดมากกว่าที่รู้เสมอ`;
-
-        // DOM elements
-        const scrollingText = document.getElementById('scrolling-text');
-        const scrollContainer = document.getElementById('scroll-container');
-        const speedControl = document.getElementById('speed-control');
-        const speedValue = document.getElementById('speed-value');
-        const widthControl = document.getElementById('width-control');
-        const widthValue = document.getElementById('width-value');
-        const pauseBtn = document.getElementById('pause-btn');
-
-        // Animation variables
-        let scrollPosition = 0;
-        let isPaused = false;
-        let speed = 100 - speedControl.value; // Inverse relationship (higher value = faster)
-        let animationId;
-        let duplicateText = lacanQuote + " " + lacanQuote; // Duplicate for seamless looping
-
-        // Initialize text
-        scrollingText.textContent = duplicateText;
-
-        function scrollText() {
-            if (!isPaused) {
-                scrollPosition += 1;
-                
-                // Reset position when we've scrolled one full length
-                if (scrollPosition > scrollContainer.scrollHeight / 2) {
-                    scrollPosition = 0;
-                }
-                
-                scrollContainer.scrollTop = scrollPosition;
-            }
-            animationId = requestAnimationFrame(scrollText);
-        }
-
-        // Start scrolling
-        scrollText();
-
-        // Speed control
-        speedControl.addEventListener('input', function() {
-            speed = 100 - this.value;
-            speedValue.textContent = this.value;
-            // Adjust speed by changing the frame rate
-            cancelAnimationFrame(animationId);
-            scrollText();
-        });
-
-        // Width control
-        widthControl.addEventListener('input', function() {
-            const width = this.value;
-            scrollContainer.style.width = `${width}px`;
-            widthValue.textContent = `${width}px`;
-        });
-
-        // Pause/Resume button
-        pauseBtn.addEventListener('click', function() {
-            isPaused = !isPaused;
-            this.textContent = isPaused ? 'Resume' : 'Pause';
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            scrollingText.style.width = scrollContainer.clientWidth + 'px';
-        });
-
-        // Clean up on page unload
-        window.addEventListener('beforeunload', function() {
-            cancelAnimationFrame(animationId);
-        });
-    </script>
-</body>
-</html>
+    <div class="scroll-container" id="scroll-container">
+        <div id="scrolling-content"></div>
+    </
