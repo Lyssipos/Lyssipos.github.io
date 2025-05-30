@@ -7,6 +7,7 @@
     <style>
         body, html {
             margin: 0;
+            background: #000000;
             padding: 0;
             height: 100%;
             overflow: hidden;
@@ -136,18 +137,17 @@ def fire_arche(thing):
     """Fire transforms all things. (Nietzschean: Eternal Recurrence)"""
     return thing ** 1.5 if random.random() > 0.5 else thing ** 0.5  # Cyclic creation/destruction
 def unity_of_opposites(a, b):
-    """Opposites are one. (Hegelian: Dialectics)"""
+    """Opposites are one."""
     return (a + b) / abs(a - b) if a != b else 0  # Tension as harmony
 def war_is_father(things):
-    """Strife generates change. (Darwin/Nietzsche: Will to Power)"""
+    """Strife generates change.)"""
     return max(things) - min(things)  # Conflict drives evolution
 def hidden_nature(thing):
-    """Nature loves to hide. (Process Philosophy: Latent Potential)"""
+    """Nature loves to hide. )"""
     return thing if random.random() > 0.8 else None  # Truth is elusive
 def soul_fire(soul):
-    """Dry soul = wisdom; wet soul = ignorance. (Stoic: Logos alignment)"""
-    return "WISE" if soul > 0.7 else "FOOLISH"  # Rationality threshold
-# --- Heraclitus' World Simulation ---
+    """Dry soul = wisdom; wet soul = ignorance."""
+    return "WISE" if soul > 0.7 else "FOOLISH" 
 def heraclitus_world(seed):
     """Run the world through Heraclitean flux."""
     state = seed
@@ -158,7 +158,6 @@ def heraclitus_world(seed):
         states.append(state) 
     # Apply deeper principles
     balance = logos(states)
-    strife = war_is_father(states)
     opposites = unity_of_opposites(states[0], states[-1])
     truth = hidden_nature(balance)
     soul = soul_fire(random.random())
@@ -184,13 +183,9 @@ if __name__ == "__main__":
         if key == "FLUX":
             print(f"* {key}: The river flows as {val}")
         elif key == "HIDDEN_TRUTH" and val is None:
-            print(f"* {key}: Nature hides her secrets (Process Philosophy).")
+            print(f"* {key}: Nature hides her secrets.")
         else:
             print(f"* {key}: {val}")
-    print("\n[Modern Echoes:]")
-    print("- Nietzsche: 'You must become a burning river, never the same.'")
-    print("- Hegel: 'Opposites unite in the dialectic of fire.'")
-    print("- Whitehead: 'Process is the ultimate reality.'")
 import random
 from functools import reduce
 def PANTA_RHEI(T):return T+random.uniform(-1,1)
