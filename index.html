@@ -3,36 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Room Stream</title>
-    <!-- Use jsDelivr for stable, versioned CDN links -->
-    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.0/dist/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ar.js@3.4.0/aframe/build/aframe-ar.min.js"></script>
+    <title>AR Room Stream Test</title>
+    <!-- STABLE CDNs -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-        #loading { position: absolute; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-family: Arial; }
+        body { margin: 0; overflow: hidden; }
+        #status { position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.7); color: white; padding: 10px; font-family: Arial; }
     </style>
 </head>
 <body>
-    <div id="loading">
-        Configuring room... Point camera at Hiro marker.
-    </div>
-
-    <!-- A-Frame Scene MUST be inside the <body> -->
-    <a-scene 
+    <!-- The A-Frame/AR.js Scene -->
+    <a-scene
         vr-mode-ui="enabled: false"
-        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
-        renderer="logarithmicDepthBuffer: true;"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+        renderer="antialias: true; alpha: true;"
         embedded
     >
-        <a-marker id="marker" preset="hiro">
-            <a-entity id="room-anchor"></a-entity>
-        </a-marker>
+        <!-- Hiro Marker Definition -->
+        <a-nft
+            id="hiro-marker"
+            type="nft"
+            url="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/trex-image/trex"
+            smooth="true"
+            smoothCount="10"
+            smoothTolerance=".01"
+            smoothThreshold="5"
+        >
+            <!-- TEST CUBE: If you see this red cube, AR is working -->
+            <a-box position="0 0.5 0" color="red" scale="0.5 0.5 0.5"></a-box>
+        </a-nft>
+
+        <!-- The Camera Entity - ABSOLUTELY CRITICAL -->
         <a-entity camera></a-entity>
-        <!-- Hidden model pool -->
-        <a-entity id="model-pool" visible="false"></a-entity>
     </a-scene>
 
-    <!-- Load your custom script last -->
-    <script src="room-streamer.js"></script>
+    <!-- Status Display -->
+    <div id="status">Loading... Please allow camera access.</div>
+
+    <!-- Your custom script - Temporarily DISABLED for testing -->
+    <!-- <script src="room-streamer.js"></script> -->
+
+    <script>
+        // Simple script to update status and log events
+        const scene = document.querySelector('a-scene');
+        const marker = document.getElementById('hiro-marker');
+        const statusDiv = document.getElementById('status');
+
+        scene.addEventListener('loaded', function() {
+            statusDiv.textContent = 'Scene loaded. Point camera at Hiro marker.';
+            console.log('A-Frame scene is loaded.');
+        });
+
+        if (marker) {
+            marker.addEventListener('markerFound', function() {
+                statusDiv.textContent = 'Marker Found!';
+                console.log('Marker found event fired.');
+            });
+            marker.addEventListener('markerLost', function() {
+                statusDiv.textContent = 'Marker Lost.';
+                console.log('Marker lost event fired.');
+            });
+        }
+    </script>
 </body>
 </html>
