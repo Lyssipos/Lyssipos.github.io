@@ -27,7 +27,8 @@ class RoomStreamer {
         
         // Model Configuration
         this.modelConfigs = this.generateModelConfigs();
-        this.modelBaseURL = 'models/';
+        this.modelBaseURL = 'https://Lyssipos.github.io/models/';
+/models/';
         this.modelExtension = '.glb';
         
         // Room State
@@ -679,3 +680,4 @@ document.addEventListener('visibilitychange', () => {
         window.roomStreamer.stopStream();
     }
 });
+
