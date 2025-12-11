@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Room Model Stream</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-animation-component@5.1.2/dist/aframe-animation-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.0/dist/aframe-environment-component.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .arjs-loader {
+            height: 100vh;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        
+        .loader-content {
+            text-align: center;
+            max-width: 500px;
+            padding: 30px;
+        }
+        
+        .loader-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #64b5f6, #bb86fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .room-diagram {
+            width: 300px;
+            height: 200px;
+            margin: 30px auto;
+            position: relative;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .room-outline {
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            width: 200px;
+            height: 160px;
+            border: 2px solid #64b5f6;
+            border-radius: 5px;
+        }
+        
+        .room-dimensions {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 12px;
+            color: #64b5f6;
+        }
+        
+        .stream-line {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+            width: 160px;
+            height: 3px;
+            background: linear-gradient(to right, #ff5252, #ff9800);
+            animation: streamFlow 2s linear infinite;
+        }
+        
+        @keyframes streamFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        
+        .door-marker {
+            position: absolute;
+            top: 80px;
+            left: 10px;
+            width: 20px;
+            height: 40px;
+            background: #4CAF50;
+            border-radius: 3px;
+        }
+        
+        .controls-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px 30px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .control-btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 140px;
+            justify-content: center;
+        }
+        
+        .btn-start { background: linear-gradient(135deg, #00C853, #64DD17); color: white; }
+        .btn-stop { background: linear-gradient(135deg, #FF5252, #FF4081); color: white; }
+        .btn-reset { background: linear-gradient(135deg, #2979FF, #00B0FF); color: white; }
+        .btn-room { background: linear-gradient(135deg, #FF9800, #FF5722); color: white; }
+        
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .info-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 1000;
+            min-width: 250px;
+        }
+        
+        .info-title {
+            color: #64b5f6;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-label {
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .info-value {
+            color: white;
+            font-weight: 600;
+        }
+        
+        .room-visualizer {
+            position: fixed;
+            bottom: 150px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            z-index: 1000;
+            width: 200px;
+        }
+        
+        .room-grid {
+            position: relative;
+            width: 170px;
+            height: 100px;
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .grid-cell {
+            position: absolute;
+            background: rgba(100, 181, 246, 0.1);
+            border: 1px solid rgba(100, 181, 246, 0.2);
+        }
+        
+        .stream-indicator {
+            position: absolute;
+            background: linear-gradient(to right, rgba(255, 82, 82, 0.8), rgba(255, 152, 0, 0.8));
+            border-radius: 3px;
+        }
+        
+        .model-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4CAF50;
+            transform: translate(-50%, -50%);
+        }
+        
+        .instructions {
+            position: fixed;
+            bottom: 150px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .instruction-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            color: white;
+        }
+        
+        .instruction-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="arjs-loader" id="loader">
+        <div class="loader-content">
+            <h1>AR Room Stream System</h1>
+            <p>Loading 3D models and room configuration...</p>
+            
+            <div class="room-diagram">
+                <div class="room-outline"></div>
+                <div class="room-dimensions">5m × 7m Room</div>
+                <div class="door-marker"></div>
+                <div class="stream-line"></div>
+            </div>
+            
+            <div class="loading-progress">
+                <div class="loading-bar" id="progressBar" style="width: 0%; height: 10px; background: linear-gradient(to right, #64b5f6, #bb86fc); border-radius: 5px; margin: 20px auto;"></div>
+            </div>
+            <p id="progressText">Preparing room environment...</p>
+        </div>
+    </div>
+
+    <!-- Room Visualizer -->
+    <div class="room-visualizer" id="roomVisualizer">
+        <div style="color: white; font-weight: 600; margin-bottom: 10px;">Room Map</div>
+        <div class="room-grid" id="roomGrid"></div>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel">
+        <div class="info-title">Stream Information</div>
+        <div class="info-row">
+            <span class="info-label">Active Models:</span>
+            <span class="info-value" id="modelCount">0</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Stream Position:</span>
+            <span class="info-value" id="streamPos">0,0,0</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Room Status:</span>
+            <span class="info-value" id="roomStatus">Not Defined</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Stream Path:</span>
+            <span class="info-value" id="streamPath">0/5m</span>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="instructions" id="instructions">
+        <div class="instruction-item">
+            <span class="instruction-icon">🚪</span>
+            <span>Place Hiro marker at entrance door</span>
+        </div>
+        <div class="instruction-item">
+            <span class="instruction-icon">⬅️➡️</span>
+            <span>Stream runs left-to-right (5m width)</span>
+        </div>
+        <div class="instruction-item">
+            <span class="instruction-icon">📐</span>
+            <span>Room: 5m wide × 7m deep</span>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-panel">
+        <button class="control-btn btn-start" id="startBtn">
+            <span>▶️ Start Stream</span>
+        </button>
+        <button class="control-btn btn-stop" id="stopBtn">
+            <span>⏸️ Stop</span>
+        </button>
+        <button class="control-btn btn-reset" id="resetBtn">
+            <span>🔄 Reset</span>
+        </button>
+        <button class="control-btn btn-room" id="showRoomBtn">
+            <span>📐 Show Room</span>
+        </button>
+    </div>
+
+    <!-- A-Frame Scene -->
+    <a-scene 
+        vr-mode-ui="enabled: false"
+        arjs="sourceType: webcam; 
+               videoTexture: true; 
+               debugUIEnabled: false;
+               detectionMode: mono_and_matrix;
+               matrixCodeType: 3x3;"
+        renderer="antialias: true;
+                  logarithmicDepthBuffer: true;
+                  precision: high;"
+        embedded
+        loading-screen="enabled: false;"
+    >
+        <!-- AR Camera -->
+        <a-entity camera="fov: 60;" position="0 1.6 0">
+            <a-entity cursor="rayOrigin: mouse" raycaster="objects: .intersectable"></a-entity>
+        </a-entity>
+        
+        <!-- Hiro Marker at Entrance Door -->
+        <a-marker id="marker" preset="hiro" emitevents="true">
+            <!-- Entrance Door Visualization -->
+            <a-entity position="0 0 0" id="entrance-door">
+                <a-box position="0 0.5 0" width="0.8" height="2" depth="0.1" color="#795548"></a-box>
+                <a-text value="ENTRANCE" position="0 1.2 0.06" color="white" align="center" width="2"></a-text>
+            </a-entity>
+        </a-marker>
+        
+        <!-- Room Boundaries (Initially hidden, shown when room is defined) -->
+        <a-entity id="room-boundaries" visible="false">
+            <!-- Floor (5x7 meters) -->
+            <a-plane position="2.5 0 3.5" rotation="-90 0 0" width="5" height="7" 
+                     color="#1a237e" opacity="0.1" repeat="10 14"></a-plane>
+            
+            <!-- Room Outline -->
+            <a-entity line="start: 0 0 0; end: 5 0 0; color: #64b5f6" position="0 0.01 0"></a-entity>
+            <a-entity line="start: 0 0 0; end: 0 0 7; color: #64b5f6" position="0 0.01 0"></a-entity>
+            <a-entity line="start: 5 0 0; end: 5 0 7; color: #64b5f6" position="0 0.01 0"></a-entity>
+            <a-entity line="start: 0 0 7; end: 5 0 7; color: #64b5f6" position="0 0.01 0"></a-entity>
+            
+            <!-- Height markers -->
+            <a-entity line="start: 0 0 0; end: 0 2.5 0; color: #64b5f6" position="0 0.01 0"></a-entity>
+            <a-entity line="start: 5 0 0; end: 5 2.5 0; color: #64b5f6" position="0 0.01 0"></a-entity>
+            
+            <!-- Grid lines for better spatial awareness -->
+            <a-entity id="room-grid-lines"></a-entity>
+            
+            <!-- Start and End Points -->
+            <a-entity id="start-point" position="0 0.2 0">
+                <a-sphere radius="0.1" color="#00C853"></a-sphere>
+                <a-text value="START" position="0 0.3 0" color="#00C853" align="center" width="1"></a-text>
+            </a-entity>
+            
+            <a-entity id="end-point" position="5 0.2 0">
+                <a-sphere radius="0.1" color="#FF5252"></a-sphere>
+                <a-text value="END" position="0 0.3 0" color="#FF5252" align="center" width="1"></a-text>
+            </a-entity>
+            
+            <!-- Stream Path Visualization -->
+            <a-entity id="stream-path" position="0 0.1 0">
+                <a-entity line="start: 0 0 0; end: 5 0 0; color: #FF9800; opacity: 0.5"></a-entity>
+            </a-entity>
+        </a-entity>
+        
+        <!-- Model Pool -->
+        <a-entity id="model-pool" visible="false"></a-entity>
+        
+        <!-- Lights -->
+        <a-entity light="type: ambient; color: #666; intensity: 0.6"></a-entity>
+        <a-entity light="type: directional; color: #FFF; intensity: 0.8" position="-1 2 1"></a-entity>
+    </a-scene>
+
+    <script src="room-streamer.js"></script>
+</body>
+</html>
