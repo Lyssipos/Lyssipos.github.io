@@ -23,10 +23,15 @@
         renderer="logarithmicDepthBuffer: true;"
     >
         <!-- CORRECT MARKER: Uses preset='hiro' -->
-        <a-marker id="hiro-marker" preset="hiro">
-            <!-- TEST OBJECT: A red box. If this appears, success! -->
-            <a-box position="0 0.5 0" color="red" scale="0.5 0.5 0.5"></a-box>
-        </a-marker>
+       <a-marker id="hiro-marker" preset="hiro">
+    <!-- Test loading ONE model. Update the path to match your repo. -->
+    <a-entity
+        gltf-model="url(https://Lyssipos.github.io/Lyssipos/models/model_1.glb)"
+        scale="0.5 0.5 0.5"
+        position="0 0.5 0"
+    ></a-entity>
+</a-marker>
+
         
         <!-- Camera is REQUIRED -->
         <a-entity camera></a-entity>
@@ -51,4 +56,5 @@
     </script>
 </body>
 </html>
+
 
