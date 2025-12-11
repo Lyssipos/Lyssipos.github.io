@@ -27,7 +27,7 @@ class RoomStreamer {
         
         // Model Configuration
         this.modelConfigs = this.generateModelConfigs();
-        this.modelBaseURL = '/models/';
+        this.modelBaseURL = 'models/';
 
         this.modelExtension = '.glb';
         
@@ -680,6 +680,7 @@ document.addEventListener('visibilitychange', () => {
         window.roomStreamer.stopStream();
     }
 });
+
 
 
 
